@@ -6,11 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fetch API Practice</title>
-    <script src="./fetchGet.js"></script>
+    <script src="./fetchGet.js" defer></script>
 </head>
 
-<body>
+<body>Fetch API Practice
+    <div>
 
+        <form action="https://jsonplaceholder.typicode.com/users" id="example-form">
+            <label for="first-name">
+                <strong>First Name:</strong>
+                <input type="text" name="first_name" id="first-name">
+            </label>
+
+            <label for="last-name">
+                Last Name:
+                <input type="text" name="last_name" id="last-name">
+            </label>
+
+            <input type="submit" value="Create new user">
+
+        </form>
+
+    </div>
 </body>
 
 </html>

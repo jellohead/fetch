@@ -1,15 +1,46 @@
 // fetchGet.js
 
-fetch('https://jsonplaceholder.typicode.com/posts/1')
-    .then(response => response.json())
-    .then(json => console.log(json));
+// set up event listener for submit button
+const exampleForm = document.getElementById('example-form');
+console.log(exampleForm);
+exampleForm.addEventListener("submit", handleFormSubmit);
 
+// read values from the form fields
+async function handleFormSubmit(event) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    console.log('form is')
+    console.log(form);
+    const url = form.action;
+    console.log('url is ' + url);
+    try {
+        const formData = new FormData(form);
+        const responseData = await postFormDataAsJson({ url, formData });
+        console.log({ responseData });
+    } catch (error) {
+        console.error(error);
+    }
+}
 
+// format the data as JSON and POST it to a 
+// URL with fetch
+async function postFormDataAsJson({ url, formData }) {
+    const plainFormData = Object.fromEntries(formData.entries());
+    const formDataJsonString = JSON.stringify(plainFormData);
+    const fetchOptions = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: formDataJsonString,
+    };
+    const response = await fetch(url, fetchOptions);
 
-// data stored on linked website
-// {
-//     "userId": 1,
-//     "id": 1,
-//     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-//     "body": "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-// }
+    if (!response.ok) {
+        const errorMessage = await response.text();
+        throw new Error(errorMessage);
+    }
+    return response.json();
+}
+
